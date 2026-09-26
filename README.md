@@ -18,8 +18,8 @@
 
 1. 把这个目录推到 Git 远程仓库。
 2. 在 Vercel 用 Next.js 预设导入。
-3. 只在需要接收反馈邮件时设置环境变量：`RESEND_API_KEY`、`FEEDBACK_TO_EMAIL`、可选的 `FEEDBACK_FROM_EMAIL`。不要设置数据库。
-4. 未设置邮件变量时，反馈会退回邮件应用，不会写入数据库。
+3. 要记下使用类型时，在 Supabase 建好 `usage_events` 表，并在 Vercel 设置 `SUPABASE_URL` 和 `SUPABASE_SERVICE_ROLE_KEY`。不要设置邮件变量。
+4. 未设置这两个变量时，结果页仍可使用，使用记录不会写入。金额和邮箱不会上传。
 5. 每次改规则，先在预览部署上对照 `npm test`，再合并到生产。
 
 本地：

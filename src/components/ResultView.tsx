@@ -245,7 +245,7 @@ export function ResultView({
       <button type="button" onClick={onEdit} className="mt-6 text-sm text-teal-900 underline">
         {t.editAnswers}
       </button>
-      <FeedbackForm inputs={input} />
+      <FeedbackForm input={input} result={result} />
     </div>
   );
 }

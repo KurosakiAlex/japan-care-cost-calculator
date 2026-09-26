@@ -52,22 +52,20 @@
 
 规则说明正文（`official`、`simplification`）是日文，写在规则文件里，三语切换不会翻译它们。比例数字用 `formatRatio` / `formatRatioRange` 填进文案模板。
 
-## 反馈
+## 使用记录
 
-结果页的 `FeedbackForm` 向 `POST /api/feedback` 发送评分、意见、可选邮箱。默认不附带计算输入，除非用户勾选。
+结果页打开时，`FeedbackForm` 向 `POST /api/usage` 发送一次选项类型。三个帮助按钮再各记一条评价。同一浏览器标签里，同一次结果不重复发送。
 
-`app/api/feedback/route.ts`：
+记录只有语言、年龄段、要介护度、场所、住民税类别、比例是否判定、服务费路径，以及可选的评价。不含金额、邮箱和自由文字。接口会丢掉这些多余字段。
 
-- 同时有 `RESEND_API_KEY` 和 `FEEDBACK_TO_EMAIL` 时，请求 [Resend](https://api.resend.com/emails) 发一封邮件。发件地址用 `FEEDBACK_FROM_EMAIL`，没有则用 `feedback@localhost`。
-- 缺少上述变量，或 Resend 返回失败：接口返回 `mailto` 链接，页面显示「用邮件应用送出」。
-- 不写数据库，不落盘。
+配置了 `SUPABASE_URL` 和 `SUPABASE_SERVICE_ROLE_KEY` 时，写入 Supabase 表 `usage_events`。未配置时接口仍返回成功，但不落库。没有邮件发送。
 
 ## 部署形态
 
 上次 `next build` 的路由类型：
 
 - `/`、`/sources`：静态页（○）
-- `/api/feedback`：按请求执行的 Serverless 函数（ƒ）
+- `/api/usage`：按请求执行的 Serverless 函数（ƒ）
 
 部署到 Vercel 后，静态页由 Vercel 托管。反馈函数只在有人提交时运行，跑完即结束。本机不需要开机，也没有需要一直运行的后台进程。
 
@@ -76,7 +74,7 @@
 ```
 app/page.tsx              → src/components/App.tsx
 app/sources/page.tsx      → src/rules/index.ts
-app/api/feedback/route.ts → 仅发信或返回 mailto
+app/api/usage/route.ts    → 写入 Supabase 的使用类型，未配置则不落库
 app/layout.tsx            → src/components/Providers.tsx
 src/components/App.tsx    → estimate()、localStorage
 src/components/ResultView.tsx → 结果、FeedbackForm

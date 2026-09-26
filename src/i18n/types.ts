@@ -171,16 +171,11 @@ export type Messages = {
   officialNote: string;
   editAnswers: string;
   feedbackTitle: string;
+  feedbackNote: string;
   feedbackHelpful: string;
   feedbackUnclear: string;
   feedbackNo: string;
-  feedbackComment: string;
-  feedbackEmail: string;
-  feedbackEmailHint: string;
-  feedbackInclude: string;
-  feedbackSend: string;
   feedbackThanks: string;
-  feedbackMailto: string;
   sourcesTitle: string;
   sourcesIntro: string;
   officialLabel: string;
